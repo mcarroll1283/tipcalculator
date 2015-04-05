@@ -24,6 +24,16 @@ class ViewController: UIViewController {
         tipLabel.text = "$0.00"
         totalLabel.text = "$0.00 "
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        let maybeStoredSegment = defaults.objectForKey("default_tip_percentage_segment")
+        if let storedSegment = maybeStoredSegment {
+            let storedSegmentInt = storedSegment as Int
+            tipControl.selectedSegmentIndex = storedSegmentInt
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
