@@ -33,10 +33,17 @@ class ViewController: UIViewController {
             tipControl.selectedSegmentIndex = storedSegment
         }
         
-        let maybeStoredBill = defaults.objectForKey("stored_bill") as String?
-        if let storedBill = maybeStoredBill {
-            billField.text = storedBill
-            updateTipAndTotalFields()
+        let maybeLastBillEdit = defaults.objectForKey("last_bill_edit") as Double?
+        if let lastBillEdit = maybeLastBillEdit {
+            let lastBillEditDate = NSDate(timeIntervalSinceReferenceDate: lastBillEdit)
+            let tenMinutesAgo = NSDate(timeIntervalSinceNow: -1 * 60 * 10)
+            if tenMinutesAgo.earlierDate(lastBillEditDate) == tenMinutesAgo {
+                let maybeStoredBill = defaults.objectForKey("stored_bill") as String?
+                if let storedBill = maybeStoredBill {
+                    billField.text = storedBill
+                    updateTipAndTotalFields()
+                }
+            }
         }
     }
     
@@ -47,12 +54,11 @@ class ViewController: UIViewController {
     
     @IBAction func onEditingChanged(sender: AnyObject) {
         updateTipAndTotalFields()
-        saveStoredBill(billField.text)
-    }
-    
-    private func saveStoredBill(toStore: String) {
+        
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setObject(toStore, forKey: "stored_bill")
+        defaults.setObject(billField.text, forKey: "stored_bill")
+        let now = NSDate()
+        defaults.setObject(now.timeIntervalSinceReferenceDate, forKey: "last_bill_edit")
     }
     
     private func updateTipAndTotalFields() {
