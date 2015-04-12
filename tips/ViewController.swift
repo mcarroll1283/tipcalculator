@@ -27,9 +27,16 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         let defaults = NSUserDefaults.standardUserDefaults()
+        
         let maybeStoredSegment = defaults.objectForKey("default_tip_percentage_segment") as Int?
         if let storedSegment = maybeStoredSegment {
             tipControl.selectedSegmentIndex = storedSegment
+        }
+        
+        let maybeStoredBill = defaults.objectForKey("stored_bill") as String?
+        if let storedBill = maybeStoredBill {
+            billField.text = storedBill
+            updateTipAndTotalFields()
         }
     }
     
@@ -39,6 +46,16 @@ class ViewController: UIViewController {
     }
     
     @IBAction func onEditingChanged(sender: AnyObject) {
+        updateTipAndTotalFields()
+        saveStoredBill(billField.text)
+    }
+    
+    private func saveStoredBill(toStore: String) {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(toStore, forKey: "stored_bill")
+    }
+    
+    private func updateTipAndTotalFields() {
         let tipPercentages = [0.18, 0.2, 0.22]
         let tipPercent = tipPercentages[tipControl.selectedSegmentIndex]
         let billAmount = (billField.text as NSString).doubleValue
