@@ -27,10 +27,9 @@ class ViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         let defaults = NSUserDefaults.standardUserDefaults()
-        let maybeStoredSegment = defaults.objectForKey("default_tip_percentage_segment")
+        let maybeStoredSegment = defaults.objectForKey("default_tip_percentage_segment") as Int?
         if let storedSegment = maybeStoredSegment {
-            let storedSegmentInt = storedSegment as Int
-            tipControl.selectedSegmentIndex = storedSegmentInt
+            tipControl.selectedSegmentIndex = storedSegment
         }
     }
     

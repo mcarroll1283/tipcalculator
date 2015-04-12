@@ -15,10 +15,9 @@ class SettingsViewController: UIViewController {
         super.viewWillAppear(animated)
 
         let defaults = NSUserDefaults.standardUserDefaults()
-        let maybeStoredSegment = defaults.objectForKey("default_tip_percentage_segment")
+        let maybeStoredSegment = defaults.objectForKey("default_tip_percentage_segment") as Int?
         if let storedSegment = maybeStoredSegment {
-            let storedSegmentInt = storedSegment as Int
-            defaultTipPercentageControl.selectedSegmentIndex = storedSegmentInt
+            defaultTipPercentageControl.selectedSegmentIndex = storedSegment
         }
     }
 
