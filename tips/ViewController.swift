@@ -13,9 +13,19 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var billField: UITextField!
     
+    @IBOutlet weak var billFieldLabel: UILabel!
+    
     @IBOutlet weak var totalLabel: UILabel!
     
     @IBOutlet weak var tipControl: UISegmentedControl!
+    
+    @IBOutlet weak var tipControlLabel: UILabel!
+    
+    @IBOutlet weak var tipTextLabel: UILabel!
+    
+    @IBOutlet weak var totalTextLabel: UILabel!
+    
+    @IBOutlet weak var settingsButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +54,50 @@ class ViewController: UIViewController {
                     updateTipAndTotalFields()
                 }
             }
+        }
+        
+        let maybeTheme = defaults.objectForKey("theme") as Int?
+        if let theme = maybeTheme {
+            applyTheme(theme)
+        } else {
+            applyTheme(0)
+        }
+    }
+    
+    private func applyTheme(theme: Int) {
+        let white = UIColor.whiteColor()
+        let gray = UIColor.grayColor()
+        let black = UIColor.blackColor()
+        let green = UIColor(red:0.31, green:0.73, blue:0.27, alpha:1)
+        let darkGray = UIColor.darkGrayColor()
+        
+        switch theme {
+        case 0:
+            view.backgroundColor = white
+            tipLabel.textColor = black
+            billField.textColor = black
+            billField.backgroundColor = white
+            billFieldLabel.textColor = black
+            totalLabel.textColor = black
+            tipControlLabel.textColor = black
+            tipControl.tintColor = green
+            tipTextLabel.textColor = black
+            totalTextLabel.textColor = black
+            settingsButton.tintColor = green
+        case 1:
+            view.backgroundColor = darkGray
+            tipLabel.textColor = white
+            billField.textColor = white
+            billField.backgroundColor = gray
+            billFieldLabel.textColor = white
+            totalLabel.textColor = white
+            tipControlLabel.textColor = white
+            tipControl.tintColor = gray
+            tipTextLabel.textColor = white
+            totalTextLabel.textColor = white
+            settingsButton.tintColor = darkGray
+        default:
+            print("Unknown theme: \(theme)")
         }
     }
     
